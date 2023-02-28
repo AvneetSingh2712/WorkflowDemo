@@ -34,11 +34,6 @@ jobs:
           name: apk
           path: app/build/outputs/apk/debug/app-debug.apk 
           
-  distribute:
-    name: Distribute APK
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
       - name: Post to a Slack channel
         id: slack
         uses: slackapi/slack-github-action@v1.23.0
