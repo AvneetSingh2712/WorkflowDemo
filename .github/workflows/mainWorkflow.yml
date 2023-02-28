@@ -24,7 +24,12 @@ jobs:
           
       - name: Install NDK
         run: echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install 'ndk;21.1.6352462'
-        
+  
+  apk:
+    name: Generate APK
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
       - name: Build APK
         run: bash ./gradlew assembleDebug --stacktrace
         
@@ -33,7 +38,12 @@ jobs:
         with:
           name: apk
           path: app/build/outputs/apk/debug/app-debug.apk 
-     
+          
+  distribute:
+    name: Distribute APK
+    needs: apk
+    runs-on: ubuntu-latest
+    steps:
       - name: Post to a Slack channel
         id: slack
         uses: slackapi/slack-github-action@v1.23.0
